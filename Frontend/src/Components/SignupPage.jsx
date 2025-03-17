@@ -33,6 +33,9 @@ function SignupPage() {
      const response=await  axios.post("http://localhost:3000/signup",userData,{
       withCredentials:true
      })
+     if(response.data.token){
+      localStorage.setItem("authtoken",JSON.stringify(response.data.token))
+     }
      if (response.data) {
       const {success,message}=response.data;
       if(success){
@@ -52,7 +55,13 @@ function SignupPage() {
     }
      } catch (error) {
       console.log(`here is your error before axios work ${error}`);
-      
+      if(error.response && error.response.data && error.response.data.message){
+        setResponseMessage(error.response.data.message);
+      }else{
+        setResponseMessage("Network error or server is down.. come back later.")
+      }
+      setsuccess(false);
+      setShowModal(true);
      }
   };
   

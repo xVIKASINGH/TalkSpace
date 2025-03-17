@@ -40,7 +40,6 @@ app.use((err, req, res, next) => {
     const { statusCode = 500, message = "Server error, please try again later." } = err;
     res.status(statusCode).json({
         success: false,
-        statusCode,
         message
     });
 });

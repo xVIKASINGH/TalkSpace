@@ -65,7 +65,7 @@ function Navbar() {
         {!isAuthenticated ? (
               <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li className="nav-item mx-3">
-                  <Link className="nav-link" to="/about">Join as Guest</Link>
+                  <Link className="nav-link" to="/home">Join as Guest</Link>
                 </li>
                 <li className="nav-item mx-3">
                   <Link className="nav-link" to="/signup">Register</Link>
@@ -76,11 +76,15 @@ function Navbar() {
               </ul>
             ) : (
               <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+                  <li className="nav-item mx-3 ">
+                <Link className="nav-link" to="/home">Room</Link>
+                </li>
                 <li className="nav-item mx-3">
                   <button className="btn btn-danger" onClick={handleLogout}>
                     Logout
                   </button>
                 </li>
+              
               </ul>
             )}
         </div>

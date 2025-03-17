@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Modal, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
+
 function LoginPage() {
   const [username,setusername]=useState('');
   const [password,setpassword]=useState('');
@@ -25,16 +26,21 @@ function LoginPage() {
      const response=await  axios.post("http://localhost:3000/login",userdata,{
         withCredentials:true
        })
+       if (response.data && response.data.token) {
+        localStorage.setItem("authToken", response.data.token);  
+    }
+    
        if(response.data){
         const {success,message}=response.data;
         if (success) {
           setResponseMessage(message || "Logged in successfully");
           setsuccess(true);
-
+          
           
       
         } else {
           setResponseMessage(message || "Login failed. Please try again.");
+          console.log(message);
           setsuccess(false); 
         }
         
@@ -42,8 +48,12 @@ function LoginPage() {
        }
      
     } catch (error) {
-      console.log(`here is your error before axios work ${error}`);
-      setResponseMessage("Login failed. Please try again.");
+      if (error.response && error.response.data && error.response.data.message) {
+        setResponseMessage(error.response.data.message); 
+      } else {
+        setResponseMessage("Network error or server is down.");
+      }
+      
       setsuccess(false);
       setshowmodal(true);
     }

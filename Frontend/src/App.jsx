@@ -8,6 +8,7 @@ import LoginPage from './Components/LoginPage'
 import Home from './Components/Home'
 
 import VideoMeetComponent from './Components/VideoMeetComponent'
+import PageNotFound from './Components/PageNotFound'
 
 function AppContent() {  
   const location = useLocation(); 
@@ -23,9 +24,10 @@ function AppContent() {
         <Route path='/login' element={<LoginPage />} />
         <Route path='/home' element={<Home />} />
         <Route path='/video/:url' element={<VideoMeetComponent/>} />
+        <Route path='/*' element={<PageNotFound/>} />
       </Routes>
 
-     <Footer/>
+  
     </>
   );
 }

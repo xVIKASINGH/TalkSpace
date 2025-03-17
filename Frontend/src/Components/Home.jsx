@@ -54,7 +54,10 @@ const navigate=useNavigate();
             </div>
 
         </div>
-    
+      <h3>Step 1: Create a room by enter a meeting code,then enter username</h3>
+      <h3>Step 2: After joining, share the above URL with your receiver to start the conversation.</h3>
+      <h3>Step 3: connect and exchange real time Communication.. </h3>
+
     </div>
     
   )

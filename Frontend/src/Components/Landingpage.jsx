@@ -24,7 +24,7 @@ function Landingpage() {
       >
        <h1 style={{color:"white",marginTop:"3.5rem"}}> <span style={{color:"#ff9839"}}>Connect</span> with your loved ones</h1>
        <h4 style={{marginTop:"1rem",color:"gray"}}>Cover a distance with TalkSpace</h4>
-       <button type="button" class="btn btn-warning mt-2 text-black ">
+       <button type="button" className="btn btn-warning mt-2 text-black ">
         <Link to="signup" style={{textDecoration:"none" ,color:"black"}}>Get Started</Link>
        </button>
       </div>

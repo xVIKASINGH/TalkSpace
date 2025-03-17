@@ -1,17 +1,18 @@
 const UserSchema = require('../Schemas/UserSchema');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
-exports.signup = async (req, res) => {
+const ExpressError =require("../Middleware/ExpressError")
+exports.signup = async (req, res,next) => {
     const { email, username, password } = req.body;
     if (!email || !username || !password) {
-        return res.json({ success: false, message: "Please enter all fields" });
+        return next(new ExpressError(400,"Please enter all the fields"));
     }
 
     try {
         const existing_user = await UserSchema.findOne({ email });
         if (existing_user) {
-            return res.json({ success: false, message: "User already exists" });
+            return next( new ExpressError(400,"User already exist"));
+
         }
 
         const hashedPassword = await bcrypt.hash(password, 12);
@@ -30,26 +31,26 @@ exports.signup = async (req, res) => {
         res.status(201).json({ message: "User signed up successfully", success: true, new_user });
 
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ success: false, message: "Server error" });
+        next(error)
     }
 };
 
-exports.login = async (req, res) => {
+exports.login = async (req, res,next) => {
     const { username, password } = req.body;
     if (!username || !password) {
-        return res.json({ success: false, message: "Please enter all the fields" });
+        return next(new ExpressError(400,"Please enter all the fields"));
+
     }
 
     try {
         const user = await UserSchema.findOne({ username });
         if (!user) {
-            return res.json({ success: false, message: "No user exists with this username" });
+           return next( new ExpressError(400,"no user exist for this username"))
         }
 
         const isValid = await bcrypt.compare(password, user.password);
         if (!isValid) {
-            return res.json({ success: false, message: "Password is incorrect" });
+         return next( new ExpressError(400,"Password is incorrect"))
         }
 
         const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY, { expiresIn: "1h" });
@@ -59,11 +60,11 @@ exports.login = async (req, res) => {
             sameSite: 'lax'
         });
 
-        res.status(201).json({ message: "Logged in successfully", success: true, user });
+        res.status(201).json({ message: "Logged in successfully", success: true, user,token });
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server error" });
+        next( error)
     }
 };
 
