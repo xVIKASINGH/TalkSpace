@@ -1,10 +1,10 @@
-import { Server } from 'socket.io';
+const {Server} =require("socket.io");
 
 const connection = {};
 const message = {};
 const timeOnline = {};
 
-export const connectToServer = (server) => {
+ const connectToServer = (server) => {
     const io = new Server(server, {
         cors: {
             origin: "*",
@@ -96,3 +96,6 @@ export const connectToServer = (server) => {
 
     return io;
 }
+
+
+module.exports={connectToServer}
